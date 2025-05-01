@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>한음 한방신경정신과 한의원 관리자</title>
+    <style>
+	body {
+	  margin: 0;
+	  font-family: 'Roboto', sans-serif;
+	  background-color: #e3f2fd; /* light blue background */
+	  overflow: hidden;
+	  color: #212121;
+	}
+
+	#admin-screen {
+	  display: flex;
+	  width: 100vw;
+	  height: 100vh;
+	  background-color: #e3f2fd;
+	}
+
+	.sidebar {
+	  width: 260px;
+	  background-color: #ffffff;
+	  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.08);
+	  padding: 24px 0;
+	  box-sizing: border-box;
+	  display: flex;
+	  flex-direction: column;
+	}
+
+	.sidebar h2 {
+	  font-size: 18px;
+	  font-weight: 600;
+	  padding: 0 24px 16px;
+	  margin-bottom: 16px;
+	  color: #1976d2;
+	  border-bottom: 1px solid #eeeeee;
+	}
+
+	.nav-menu {
+	  list-style: none;
+	  padding: 0;
+	  margin: 0;
+	}
+
+	.nav-menu li {
+	  margin-bottom: 4px;
+	}
+
+	.nav-menu a {
+	  display: block;
+	  padding: 12px 24px;
+	  text-decoration: none;
+	  color: #333;
+	  border-radius: 4px;
+	  font-size: 14px;
+	  transition: background-color 0.2s ease, color 0.2s ease;
+	}
+
+	.nav-menu a:hover {
+	  background-color: #e3f2fd;
+	  color: #1976d2;
+	}
+
+	.nav-menu a.active {
+	  background-color: #1976d2;
+	  color: white;
+	  font-weight: 500;
+	}
+
+	.sub-menu {
+	  background-color: #f1f8ff;
+	  margin: 2px 0 0 0;
+	  padding: 0;
+	  overflow: hidden;
+	  height: 0;
+	  transition: height 0.3s ease;
+	  border-left: 3px solid #90caf9;
+	}
+
+	.sub-menu.expanded {
+	  /* height는 JavaScript에서 제어 */
+	}
+
+	.sub-menu a {
+	  padding-left: 40px;
+	  font-size: 13.5px;
+	  color: #444;
+	}
+
+	.sub-menu a:hover {
+	  background-color: #d0e6ff;
+	  color: #1976d2;
+	}
+
+	.sub-menu .sub-menu {
+	  background-color: #e3f2fd;
+	}
+
+	.sub-menu .sub-menu a {
+	  padding-left: 60px;
+	  font-size: 13px;
+	  color: #555;
+	}
+
+	.content {
+	  flex-grow: 1;
+	  background-color: #ffffff;
+	  margin: 24px;
+	  padding: 32px;
+	  border-radius: 12px;
+	  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+	  overflow-y: auto;
+	}
+
+	.content h1 {
+	  font-size: 24px;
+	  font-weight: 600;
+	  margin-bottom: 20px;
+	  color: #0d47a1;
+	}
+
+	.content p {
+	  font-size: 15px;
+	  color: #424242;
+	  line-height: 1.6;
+	}
+    </style>
+</head>
+<body>
+
+    <div id="admin-screen">
+        <aside class="sidebar">
+            <h2>한음 관리자 메뉴</h2>
+            <ul class="nav-menu">
+                <li>
+                    <!-- 부모 항목 링크 -->
+                    <a href="#">1. 지점</a>
+                    <!-- 자식 항목 리스트 -->
+                    <ul class="sub-menu">
+                         <!-- 자료에서 '1. 지점' 하위에 '지점 리스트 -수정, 삭제', '지점 추가' 등의 기능이 설명되어 있으므로 [1]
+                             이들을 대표하는 '지점 관리'를 하위 항목으로 표현합니다. -->
+                        <li><a href="#">지점 리스트</a></li>
+                        <li><a href="#">지점 관리자 리스트</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <!-- 부모 항목 링크 -->
+                    <a href="#">2. 자료</a>
+                    <!-- 자식 항목 리스트 -->
+                    <ul class="sub-menu">
+                        <li><a href="#">1) 동의서, 설명서</a>
+                            <ul class="sub-menu">
+                                <li><a href="#">동의서, 설명서 리스트</a></li>
+                            </ul>
+			</li>
+                        <li>
+                            <a href="#">2) 설문지</a>
+                            <ul class="sub-menu">
+                                <li><a href="#">조합 리스트</a></li>
+                                <li><a href="#">설문지 내용</a></li>
+                                <li><a href="#">지점 설문지 리스트</a></li>
+                            </ul>
+                        </li>
+			<li><a href="#">3) 기타자료</a>
+                            <ul class="sub-menu">
+                                <li><a href="#">검사명 리스트</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#">3) 치료 도움 자료</a>
+                            <ul class="sub-menu">
+                                <li><a href="#">자료 리스트</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#">4) 질병코드</a>
+                            <ul class="sub-menu">
+                                <!-- 자료에서 '4) 질병코드' 하위에 '(1) 환자 리스트 보기', '(2) 코드 관리'가 명시되어 있습니다. [3] -->
+                                <li><a href="#">코드별 환자 리스트 보기</a></li>
+                                <li><a href="#">코드 관리</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                 <!-- 자료에서 '0. 본점 정보 수정'이 독립적인 최상위 메뉴로 제시되어 있습니다. [1, 2] -->
+                <li><a href="#">0. 본점 정보 수정</a></li> 
+            </ul>
+        </aside>
+
+        <main class="content">
+            <h1>메인 콘텐츠 영역</h1>
+            <p>선택된 메뉴에 따라 해당 내용이 이 영역에 표시됩니다.</p>
+            <!-- 여기에 실제 각 메뉴 항목에 해당하는 내용이 로드됩니다. -->
+        </main>
+    </div>
+
+    <script>
+        // DOMContentLoaded 이벤트는 HTML이 완전히 로드되고 파싱된 후에 발생합니다.
+        document.addEventListener('DOMContentLoaded', function() {
+            // 하위 메뉴를 가지는 모든 부모 링크를 선택합니다.
+            // .nav-menu > li > a : 최상위 부모 항목
+            // .sub-menu > li > a : 2단계 부모 항목
+            const parentLinks = document.querySelectorAll('.nav-menu a');
+
+            parentLinks.forEach(link => {
+                // 클릭 이벤트 리스너 추가
+                link.addEventListener('click', function(event) {
+                    // 기본 링크 이동 동작 방지 (새 페이지 로드되지 않도록)
+                    // 실제 페이지 이동 로직을 여기에 추가하거나 링크의 href를 사용하도록 수정 필요
+                    event.preventDefault(); 
+
+                    // 클릭된 링크의 바로 다음 형제 요소(ul.sub-menu)를 찾습니다.
+                    const subMenu = this.nextElementSibling;
+
+                    // 만약 다음 형제가 ul.sub-menu가 아니면 (즉, 하위 메뉴가 없는 항목이면)
+                    // 아무 동작 없이 함수 종료
+                    if (!subMenu || !subMenu.classList.contains('sub-menu')) {
+                        // 실제 메뉴 항목 클릭 시 원하는 동작 (페이지 로드 등)을 여기에 추가
+                        console.log('하위 메뉴가 없는 항목 클릭됨:', this.textContent);
+                        // 예: window.location.href = this.href; // 링크로 이동
+                        return; 
+                    }
+
+                    // 현재 하위 메뉴가 펼쳐져 있는지 확인 (height가 0이 아닌지)
+                    const isExpanded = subMenu.style.height !== '0px' && subMenu.style.height !== '';
+
+                    // 모든 열려 있는 다른 하위 메뉴 닫기 (선택 사항: 아코디언 효과)
+                    // 부모 메뉴만 클릭했을 때 다른 모든 하위 메뉴 닫기
+                     if (!this.parentElement.parentElement.classList.contains('sub-menu')) { // 최상위 부모 메뉴인 경우
+                        document.querySelectorAll('.nav-menu .sub-menu.expanded').forEach(openSub => {
+                            if (openSub !== subMenu) { // 클릭된 메뉴의 하위 메뉴는 제외
+                                openSub.style.height = '0px';
+                                openSub.classList.remove('expanded');
+                                // 열린 메뉴의 부모 <li>에서 expanded 클래스 제거
+                                const parentLi = openSub.parentElement;
+                                if (parentLi && parentLi.tagName === 'LI') {
+                                     parentLi.classList.remove('expanded-li'); // LI에 클래스 추가했다면 제거
+                                }
+                            }
+                        });
+                    }
+
+
+                    // 하위 메뉴 펼치거나 접기
+                    if (isExpanded) {
+                        // 접기 (slideUp)
+                        // 현재 높이로 설정하여 트랜지션 시작점 지정
+                        subMenu.style.height = subMenu.scrollHeight + 'px';
+                        // 다음 애니메이션 프레임에서 높이를 0으로 설정하여 트랜지션 시작
+                        requestAnimationFrame(() => {
+                             subMenu.style.height = '0px';
+                        });
+                       
+                        // 부모 <li>에 expanded 클래스 제거 (필요하다면 스타일 구분용)
+                         this.parentElement.classList.remove('expanded-li');
+                         // sub-menu 자체에 expanded 클래스 제거
+                         subMenu.classList.remove('expanded');
+
+
+                    } else {
+                        // 펼치기 (slideDown)
+                        // height를 auto로 설정하여 스크롤 높이 계산
+                         subMenu.style.height = 'auto'; 
+                        const scrollHeight = subMenu.scrollHeight; // 실제 내용 높이
+
+                        // 다시 height를 0으로 설정
+                        subMenu.style.height = '0px';
+                       
+                        // 다음 애니메이션 프레임에서 계산된 높이로 설정하여 트랜지션 시작
+                        requestAnimationFrame(() => {
+                             subMenu.style.height = scrollHeight + 'px';
+                        });
+
+                         // 트랜지션 완료 후 height를 다시 auto로 설정하여 반응형 높이 유지
+                         // (혹은 content가 동적으로 변할 때를 대비)
+                         subMenu.addEventListener('transitionend', function handler() {
+                            subMenu.style.height = 'auto';
+                            subMenu.removeEventListener('transitionend', handler); // 이벤트 리스너 제거
+                         });
+
+                         // 부모 <li>에 expanded 클래스 추가 (필요하다면 스타일 구분용)
+                         this.parentElement.classList.add('expanded-li');
+                         // sub-menu 자체에 expanded 클래스 추가 (스타일 구분용)
+                         subMenu.classList.add('expanded');
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
