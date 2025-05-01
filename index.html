@@ -5,29 +5,118 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>한음 한방신경정신과 한의원 관리자</title>
     <style>
-	body {
-	  margin: 0;
-	  font-family: 'Roboto', sans-serif;
-	  background-color: #e3f2fd; /* light blue background */
-	  overflow: hidden;
-	  color: #212121;
-	}
+	/* Material-UI 유사 스타일 기본 설정 */
+    :root {
+        --primary-color: #6200EE; /* Material-UI Default Primary */
+        --primary-dark-color: #3700B3;
+        --accent-color: #03DAC6; /* Material-UI Default Secondary */
+        --text-color: #333;
+        --login-background-color: #efefef;
+        --background-color: #ffffff;
+        --surface-color: #ffffff;
+        --border-color: #e0e0e0;
+        --dark-grey: #424242; /* 요청받은 진회색 정도 */
+    }
+    body {
+        font-family: 'Roboto', sans-serif; /* Material-UI 기본 폰트 */
+        margin: 0;
+        padding: 0;
+        background-color: var(--login-background-color);
+        color: var(--text-color);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+    }
+    .container {
+        background-color: var(--surface-color);
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 400px;
+        box-sizing: border-box;
+    }
+
+    /* 로그인 화면 스타일 */
+    #login-screen {
+        text-align: center;
+    }
+
+    #login-screen h2 {
+        margin-bottom: 30px;
+        color: var(--dark-grey); /* 요청받은 진회색 사용 */
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+        text-align: left;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: bold;
+        color: var(--text-color);
+    }
+
+    .form-group input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid var(--border-color);
+        border-radius: 4px;
+        box-sizing: border-box;
+        font-size: 16px;
+        transition: border-color 0.3s ease;
+    }
+
+    .form-group input:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 0.2rem rgba(98, 0, 238, 0.25); /* Primary color with transparency */
+    }
+
+    button {
+        background-color: var(--dark-grey); /* 요청받은 진회색 사용 */
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        text-transform: uppercase;
+        font-weight: 500;
+    }
+
+    button:hover {
+        background-color: #333; /* Slightly darker dark grey */
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    button:active {
+            background-color: #222; /* Even darker */
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    }
 
 	#admin-screen {
 	  display: flex;
 	  width: 100vw;
 	  height: 100vh;
-	  background-color: #e3f2fd;
+	  background-color: var(--background-color);
+      overflow: hidden;
 	}
 
 	.sidebar {
 	  width: 260px;
-	  background-color: #ffffff;
+      height: 100%;
+	  background-color: var(--background-color);
 	  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.08);
 	  padding: 24px 0;
 	  box-sizing: border-box;
 	  display: flex;
 	  flex-direction: column;
+      overflow-y: auto;
 	}
 
 	.sidebar h2 {
@@ -96,7 +185,7 @@
 	}
 
 	.sub-menu .sub-menu {
-	  background-color: #e3f2fd;
+	  background-color: var(--background-color);
 	}
 
 	.sub-menu .sub-menu a {
@@ -107,12 +196,14 @@
 
 	.content {
 	  flex-grow: 1;
-	  background-color: #ffffff;
-	  margin: 24px;
+      height: 100%;
+	  background-color: var(--background-color);
+	  margin: 0;
 	  padding: 32px;
 	  border-radius: 12px;
 	  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 	  overflow-y: auto;
+      border-left: 1px solid #ddd;
 	}
 
 	.content h1 {
@@ -130,7 +221,19 @@
     </style>
 </head>
 <body>
-
+    <!-- 로그인 화면 [1] -->
+    <div id="login-screen" class="container">
+        <h2>한음 한방신경정신과 한의원</h2>
+        <div class="form-group">
+            <label for="username">아이디</label>
+            <input type="text" id="username" placeholder="아이디를 입력하세요">
+        </div>
+        <div class="form-group">
+            <label for="password">비밀번호</label>
+            <input type="password" id="password" placeholder="비밀번호를 입력하세요">
+        </div>
+        <button id="login-button">로그인</button>
+    </div>
     <div id="admin-screen">
         <aside class="sidebar">
             <h2>한음 관리자 메뉴</h2>
@@ -202,7 +305,22 @@
             // 하위 메뉴를 가지는 모든 부모 링크를 선택합니다.
             // .nav-menu > li > a : 최상위 부모 항목
             // .sub-menu > li > a : 2단계 부모 항목
+            const loginScreen = document.getElementById('login-screen');
+            const adminScreen = document.getElementById('admin-screen');
+            const loginButton = document.getElementById('login-button');
             const parentLinks = document.querySelectorAll('.nav-menu a');
+
+            // 초기 상태 설정: 로그인 화면만 보이기
+            adminScreen.style.display = 'none';
+	        loginScreen.style.display = 'block'; // 명시적으로 block 설정 (CSS 초기값 무시 방지)
+
+
+	    // 로그인 버튼 클릭 이벤트
+	    loginButton.addEventListener('click', () => {
+	        // 실제 로그인 로직 없이 화면만 전환 (목업 기능)
+	        loginScreen.style.display = 'none';
+	        adminScreen.style.display = 'flex';
+	    });
 
             parentLinks.forEach(link => {
                 // 클릭 이벤트 리스너 추가
